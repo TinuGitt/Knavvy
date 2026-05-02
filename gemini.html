@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knavvy | The Future of Learning</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --vermillion: #e34234;
+            --tangerine: #ff8c00;
+            --gradient: linear-gradient(135deg, #e34234 0%, #ff8c00 100%);
+            --glass: rgba(255, 255, 255, 0.95);
+            --dark: #1e1e1e;
+            --soft-white: #fdfdfd;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #fff5f0;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* --- IMPRESSIVE LIQUID LOADING SCREEN --- */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: var(--dark);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.8s cubic-bezier(0.87, 0, 0.13, 1);
+        }
+
+        .loader-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .liquid {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: var(--gradient);
+            filter: blur(40px);
+            border-radius: 50%;
+            animation: move 3s infinite alternate;
+        }
+
+        @keyframes move { from { transform: scale(1) translate(-20px); } to { transform: scale(1.5) translate(20px); } }
+
+        /* --- DASHBOARD UI --- */
+        header {
+            padding: 25px 5%;
+            background: var(--white);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(227, 66, 52, 0.1);
+        }
+
+        .logo-text { font-family: 'Playfair Display', serif; font-size: 2.2rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .hero {
+            padding: 80px 5%;
+            text-align: center;
+            background: url('https://www.transparenttextures.com/patterns/cubes.png');
+        }
+
+        .hero h1 { font-size: 3.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 15px; }
+        .hero span { color: var(--vermillion); }
+
+        /* --- THE SEARCH HUB --- */
+        .search-hub {
+            max-width: 1100px;
+            margin: -60px auto 40px;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 25px 50px rgba(227, 66, 52, 0.15);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            border: 1px solid white;
+        }
+
+        .filter-el label { font-size: 0.8rem; font-weight: 700; color: var(--tangerine); text-transform: uppercase; margin-bottom: 10px; display: block; }
+        
+        select, input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #eee;
+            border-radius: 15px;
+            font-size: 1rem;
+            background: white;
+            transition: all 0.3s;
+        }
+
+        select:focus { border-color: var(--vermillion); outline: none; box-shadow: 0 0 15px rgba(227, 66, 52, 0.1); }
+
+        .btn-glow {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(227, 66, 52, 0.3);
+        }
+
+        .btn-glow:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(227, 66, 52, 0.4); }
+
+        /* --- TUTOR CARDS --- */
+        .tutor-container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 30px;
+        }
+
+        .tutor-card {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .tutor-card:hover { transform: translateY(-15px); }
+
+        .tutor-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 8px;
+            background: var(--gradient);
+        }
+
+        .match-label {
+            background: #fff0eb;
+            color: var(--vermillion);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .t-name { font-size: 1.6rem; font-weight: 800; margin-bottom: 5px; }
+        .t-loc { color: var(--text-gray); font-size: 0.95rem; margin-bottom: 20px; display: flex; align-items: center; gap: 5px; }
+
+        .sub-pill {
+            display: inline-block;
+            background: #f8f8f8;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            margin: 0 5px 10px 0;
+            font-weight: 600;
+        }
+
+        .price-row {
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .fee-amount { font-size: 1.5rem; font-weight: 800; color: var(--dark); }
+
+        /* --- FOOTER --- */
+        footer { text-align: center; padding: 60px; color: var(--text-gray); font-size: 0.9rem; }
+
+        /* --- MOBILE ADAPTATION --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .search-hub { margin: -30px 20px 40px; padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="loader">
+    <div class="liquid"></div>
+    <div class="loader-logo">Knavvy</div>
+    <p style="color: #666; margin-top: 20px; letter-spacing: 2px;">BY TINUJUNGSHI</p>
+</div>
+
+<header>
+    <div class="logo-text">Knavvy.</div>
+    <div style="font-weight: 700; font-size: 0.8rem; color: var(--tangerine)">Nagaland’s #1 Directory</div>
+</header>
+
+<section class="hero">
+    <h1>Find the <span>Perfect</span> Tutor <br>for your Journey.</h1>
+    <p style="color: #666; max-width: 600px; margin: 20px auto;">Connecting ambitious students with Nagaland's most compatible educators.</p>
+</section>
+
+<div class="search-hub">
+    <div class="filter-el">
+        <label>Subject</label>
+        <select id="subS">
+            <option value="All">Explore All Subjects</option>
+            <optgroup label="Core Subjects">
+                <option value="Math">Mathematics</option>
+                <option value="Science">Science (General)</option>
+                <option value="Physics">Physics</option>
+                <option value="Chemistry">Chemistry</option>
+                <option value="Biology">Biology</option>
+                <option value="English">English Literature/Grammar</option>
+                <option value="Social Science">Social Science</option>
+            </optgroup>
+            <optgroup label="Commerce & Arts">
+                <option value="Accountancy">Accountancy</option>
+                <option value="Business Studies">Business Studies</option>
+                <option value="Economics">Economics</option>
+                <option value="Pol Science">Political Science</option>
+                <option value="Education">Education</option>
+                <option value="Alt English">Alternative English</option>
+            </optgroup>
+            <optgroup label="Language & Skills">
+                <option value="Ao">Ao Language</option>
+                <option value="Tenydie">Tenydie</option>
+                <option value="Sumi">Sumi</option>
+                <option value="Lotha">Lotha</option>
+                <option value="Computer Science">Computer Science / IT</option>
+                <option value="Music">Music/Instruments</option>
+            </optgroup>
+        </select>
+    </div>
+
+    <div class="filter-el">
+        <label>District</label>
+        <select id="distS">
+            <option value="All">Across Nagaland</option>
+            <option value="Chümoukedima">Chümoukedima</option>
+            <option value="Dimapur">Dimapur</option>
+            <option value="Kiphire">Kiphire</option>
+            <option value="Kohima">Kohima</option>
+            <option value="Longleng">Longleng</option>
+            <option value="Mokokchung">Mokokchung</option>
+            <option value="Mon">Mon</option>
+            <option value="Niuland">Niuland</option>
+            <option value="Noklak">Noklak</option>
+            <option value="Peren">Peren</option>
+            <option value="Phek">Phek</option>
+            <option value="Shamator">Shamator</option>
+            <option value="Tseminyu">Tseminyu</option>
+            <option value="Tuensang">Tuensang</option>
+            <option value="Wokha">Wokha</option>
+            <option value="Zunheboto">Zunheboto</option>
+        </select>
+    </div>
+
+    <div class="filter-el">
+        <label>Max Monthly Fee</label>
+        <input type="number" id="feeS" placeholder="₹ e.g. 3000">
+    </div>
+
+    <button class="btn-glow" onclick="search()">Search Now</button>
+</div>
+
+<div class="tutor-container">
+    <div id="grid" class="card-grid"></div>
+</div>
+
+<footer>
+    <p>© 2026 Knavvy. Crafted with ❤️ by Tinujungshi.</p>
+</footer>
+
+<script>
+    /* --- TINUJUNGSHI'S MASTER DATABASE --- 
+       Easily add, delete, or modify profiles below.
+    */
+    const DATABASE = [
+        { name: "Longumer T.", dist: "Dimapur", sub: ["Math", "Physics"], fee: 2500, contact: "9366XXXXX", bio: "NBSE Topper (2023). Simplified logical approach." },
+        { name: "Kekhrie Solo", dist: "Kohima", sub: ["Pol Science", "Education"], fee: 1800, contact: "8787XXXXX", bio: "Deep focus on NBSE Board exam patterns." },
+        { name: "Sentila Jamir", dist: "Mokokchung", sub: ["Ao", "English"], fee: 1200, contact: "7005XXXXX", bio: "Literature enthusiast and language expert." },
+        { name: "Vikram Dey", dist: "Dimapur", sub: ["Accountancy", "Economics"], fee: 4000, contact: "9436XXXXX", bio: "Professional Commerce Coaching for Class 11-12." },
+        { name: "Abemo Lotha", dist: "Wokha", sub: ["Science", "Biology"], fee: 2000, contact: "8119XXXXX", bio: "Visual learning and diagram specialist." },
+        { name: "Neituo P.", dist: "Tseminyu", sub: ["Tenydie", "Alt English"], fee: 1500, contact: "6009XXXXX", bio: "Specialized in Regional Language curriculum." },
+        { name: "Zeliang N.", dist: "Peren", sub: ["Social Science"], fee: 1000, contact: "8837XXXXX", bio: "Primary to Middle School specialist." },
+        { name: "Imkong O.", dist: "Zunheboto", sub: ["Computer Science", "Math"], fee: 3000, contact: "9862XXXXX", bio: "Practical coding and digital logic expert." }
+    ];
+
+    // Page Load Animation
+    window.onload = () => {
+        setTimeout(() => {
+            const loader = document.getElementById('loader');
+            loader.style.transform = "translateY(-100%)";
+            render(DATABASE);
+        }, 2500);
+    };
+
+    function render(list) {
+        const grid = document.getElementById('grid');
+        grid.innerHTML = list.map(t => `
+            <div class="tutor-card">
+                <div class="match-label">VERIFIED TUTOR</div>
+                <h3 class="t-name">${t.name}</h3>
+                <div class="t-loc">📍 ${t.dist} District</div>
+                <p style="font-size: 0.9rem; color: #777; line-height: 1.5; margin-bottom: 20px;">${t.bio}</p>
+                <div>
+                    ${t.sub.map(s => `<span class="sub-pill">${s}</span>`).join('')}
+                </div>
+                <div class="price-row">
+                    <div class="fee-amount">₹${t.fee}<small style="font-size: 0.7rem; color: #999;">/mo</small></div>
+                    <button class="btn-glow" style="padding: 10px 20px; font-size: 0.8rem;" onclick="alert('Contact: ${t.contact}')">Connect</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function search() {
+        const sSub = document.getElementById('subS').value;
+        const sDist = document.getElementById('distS').value;
+        const sFee = document.getElementById('feeS').value;
+
+        const results = DATABASE.filter(t => {
+            const mSub = sSub === "All" || t.sub.includes(sSub);
+            const mDist = sDist === "All" || t.dist === sDist;
+            const mFee = !sFee || t.fee <= sFee;
+            return mSub && mDist && mFee;
+        });
+
+        render(results);
+        window.scrollTo({ top: 600, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
