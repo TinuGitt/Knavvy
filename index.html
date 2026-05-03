@@ -2,217 +2,183 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="Knavvy" content="Knavvy: Nagaland's premier directory for finding the perfect local tutors and educators. Created by Tinujungshi.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Knavvy | The Future of Learning</title>
+    <title>Knavvy | Reimagining Nagaland's Learning</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
     <style>
         :root {
             --vermillion: #e34234;
             --tangerine: #ff8c00;
             --gradient: linear-gradient(135deg, #e34234 0%, #ff8c00 100%);
-            --glass: rgba(255, 255, 255, 0.95);
-            --dark: #1e1e1e;
-            --soft-white: #fdfdfd;
+            --glass: rgba(255, 255, 255, 0.7);
+            --dark: #0f0f0f;
+            --accent-soft: rgba(227, 66, 52, 0.08);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        /* Standard CSS Reset & Cursor */
+        * { box-sizing: border-box; margin: 0; padding: 0; cursor: none !important; }
 
         body {
             font-family: 'Outfit', sans-serif;
-            background-color: #fff5f0;
+            background-color: #fcfcfc;
             color: var(--dark);
             overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        /* --- IMPRESSIVE LIQUID LOADING SCREEN --- */
+        #cursor {
+            width: 20px; height: 20px; background: var(--vermillion);
+            border-radius: 50%; position: fixed; pointer-events: none;
+            z-index: 99999; transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            mix-blend-mode: difference;
+        }
+
+        .orb {
+            position: fixed; width: 40vw; height: 40vw; border-radius: 50%;
+            filter: blur(100px); z-index: -1; opacity: 0.2; pointer-events: none;
+        }
+        .orb-1 { background: var(--vermillion); top: -10%; left: -10%; }
+        .orb-2 { background: var(--tangerine); bottom: -10%; right: -10%; }
+
         #loader {
-            position: fixed;
-            inset: 0;
-            background: var(--dark);
-            z-index: 10000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: transform 0.8s cubic-bezier(0.87, 0, 0.13, 1);
+            position: fixed; inset: 0; background: var(--dark); z-index: 10000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: 1s cubic-bezier(0.85, 0, 0.15, 1);
         }
 
-        .loader-logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 4rem;
-            color: white;
-            position: relative;
-            z-index: 1;
-        }
-
-        .liquid {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            background: var(--gradient);
-            filter: blur(40px);
-            border-radius: 50%;
-            animation: move 3s infinite alternate;
-        }
-
-        @keyframes move { from { transform: scale(1) translate(-20px); } to { transform: scale(1.5) translate(20px); } }
-
-        /* --- DASHBOARD UI --- */
         header {
-            padding: 25px 5%;
-            background: var(--white);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(227, 66, 52, 0.1);
+            padding: 20px 8%; background: var(--glass); backdrop-filter: blur(25px);
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
         .logo-text { font-family: 'Playfair Display', serif; font-size: 2.2rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .hero { padding: 120px 8% 180px; text-align: center; position: relative; }
+        .hero h1 { font-size: clamp(3.5rem, 10vw, 6rem); font-weight: 800; line-height: 0.85; margin-bottom: 30px; letter-spacing: -3px; }
+        .hero span { color: var(--vermillion); position: relative; display: inline-block; }
         
-        .hero {
-            padding: 80px 5%;
-            text-align: center;
-            background: url('https://www.transparenttextures.com/patterns/cubes.png');
+        .trust-row {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px; max-width: 1100px; margin: -100px auto 100px; padding: 0 5%;
         }
+        .trust-gem {
+            background: white; padding: 30px; border-radius: 25px; text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid #f0f0f0;
+        }
+        .trust-gem h4 { color: var(--vermillion); font-size: 0.9rem; margin-bottom: 10px; text-transform: uppercase; }
 
-        .hero h1 { font-size: 3.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 15px; }
-        .hero span { color: var(--vermillion); }
-
-        /* --- THE SEARCH HUB --- */
         .search-hub {
-            max-width: 1100px;
-            margin: -60px auto 40px;
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            padding: 40px;
-            border-radius: 30px;
-            box-shadow: 0 25px 50px rgba(227, 66, 52, 0.15);
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 25px;
-            border: 1px solid white;
+            max-width: 1100px; margin: 0 auto 80px; background: white;
+            padding: 40px; border-radius: 35px; box-shadow: 0 50px 100px rgba(0,0,0,0.08);
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;
+            border: 1px solid rgba(255,255,255,1);
         }
 
-        .filter-el label { font-size: 0.8rem; font-weight: 700; color: var(--tangerine); text-transform: uppercase; margin-bottom: 10px; display: block; }
-        
+        .filter-el label { font-size: 0.7rem; font-weight: 800; color: #999; text-transform: uppercase; margin-bottom: 10px; display: block; }
         select, input {
-            width: 100%;
-            padding: 16px;
-            border: 2px solid #eee;
-            border-radius: 15px;
-            font-size: 1rem;
-            background: white;
-            transition: all 0.3s;
+            width: 100%; padding: 16px; border: 2px solid #f5f5f5; border-radius: 15px;
+            background: #fff; transition: 0.3s; font-size: 1rem; font-family: inherit;
         }
 
-        select:focus { border-color: var(--vermillion); outline: none; box-shadow: 0 0 15px rgba(227, 66, 52, 0.1); }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 30px; padding: 0 8%; }
+        
+        .tutor-card {
+            background: white; border-radius: 30px; padding: 35px;
+            border: 1px solid #f0f0f0; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative; overflow: hidden;
+        }
+        .tutor-card:hover { transform: translateY(-15px); border-color: var(--vermillion); }
+
+        .verified-badge {
+            background: #e6fff2; color: #00cc66; padding: 5px 12px; border-radius: 20px;
+            font-size: 0.65rem; font-weight: 800; display: inline-flex; align-items: center; gap: 5px;
+        }
+        .verified-pulse { width: 6px; height: 6px; background: #00cc66; border-radius: 50%; animation: pulse-green 2s infinite; }
+
+        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(0, 204, 102, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(0, 204, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 204, 102, 0); } }
 
         .btn-glow {
-            background: var(--gradient);
-            color: white;
-            border: none;
-            border-radius: 15px;
-            font-weight: 800;
-            font-size: 1.1rem;
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(227, 66, 52, 0.3);
+            background: var(--dark); color: white; border: none; border-radius: 15px;
+            font-weight: 700; padding: 15px 25px; cursor: pointer; transition: 0.4s;
+            text-decoration: none; display: inline-block;
         }
+        .btn-glow:hover { background: var(--gradient); transform: scale(1.05); }
 
-        .btn-glow:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(227, 66, 52, 0.4); }
-
-        /* --- TUTOR CARDS --- */
-        .tutor-container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
-        
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 30px;
-        }
-
-        .tutor-card {
+        .registration-box {
             background: white;
-            border-radius: 25px;
-            padding: 30px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(0,0,0,0.03);
+            padding: 40px;
+            border-radius: 30px;
+            max-width: 800px;
+            margin: 40px auto;
+            text-align: left;
+            border: 1px solid #eee;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
         }
 
-        .tutor-card:hover { transform: translateY(-15px); }
-
-        .tutor-card::before {
-            content: "";
+        .reg-list { list-style: none; margin-bottom: 30px; }
+        .reg-list li { 
+            margin-bottom: 12px; 
+            padding-left: 30px; 
+            position: relative; 
+            font-weight: 500;
+        }
+        .reg-list li::before {
+            content: '✦';
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 8px;
-            background: var(--gradient);
-        }
-
-        .match-label {
-            background: #fff0eb;
+            left: 0;
             color: var(--vermillion);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            display: inline-block;
-            margin-bottom: 20px;
         }
 
-        .t-name { font-size: 1.6rem; font-weight: 800; margin-bottom: 5px; }
-        .t-loc { color: var(--text-gray); font-size: 0.95rem; margin-bottom: 20px; display: flex; align-items: center; gap: 5px; }
+        .about-section { background: var(--dark); color: white; margin: 100px 5%; border-radius: 50px; padding: 80px 10%; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 60px; align-items: center; }
 
-        .sub-pill {
-            display: inline-block;
-            background: #f8f8f8;
-            padding: 6px 14px;
-            border-radius: 10px;
-            font-size: 0.8rem;
-            margin: 0 5px 10px 0;
-            font-weight: 600;
-        }
+        footer { text-align: center; padding: 60px; color: #999; font-size: 0.75rem; border-top: 1px solid #eee; }
 
-        .price-row {
-            margin-top: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .fee-amount { font-size: 1.5rem; font-weight: 800; color: var(--dark); }
-
-        /* --- FOOTER --- */
-        footer { text-align: center; padding: 60px; color: var(--text-gray); font-size: 0.9rem; }
-
-        /* --- MOBILE ADAPTATION --- */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.2rem; }
-            .search-hub { margin: -30px 20px 40px; padding: 25px; }
+            * { cursor: auto !important; }
+            #cursor { display: none; }
+            .hero h1 { font-size: 3.5rem; }
+            .about-section { grid-template-columns: 1fr; padding: 50px 30px; }
+            .search-hub { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
+<div id="cursor"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
 <div id="loader">
-    <div class="liquid"></div>
-    <div class="loader-logo">Knavvy</div>
-    <p style="color: #666; margin-top: 20px; letter-spacing: 2px;">BY TINUJUNGSHI</p>
+    <h1 class="logo-text" style="color: white; -webkit-text-fill-color: white; font-size: 4rem;">Knavvy</h1>
+    <p style="color: #666; letter-spacing: 5px; margin-top: 10px;">LOADING NAGALAND'S BEST</p>
 </div>
 
 <header>
     <div class="logo-text">Knavvy.</div>
-    <div style="font-weight: 700; font-size: 0.8rem; color: var(--tangerine)">Nagaland’s #1 Directory</div>
+    <div style="display: flex; gap: 15px;">
+        <button class="btn-glow" style="background: transparent; color: var(--dark); border: 1px solid #ddd;" onclick="document.getElementById('about').scrollIntoView()">About</button>
+        <button class="btn-glow" onclick="document.getElementById('join').scrollIntoView()">Join as Educator</button>
+    </div>
 </header>
 
 <section class="hero">
-    <h1>Find the <span>Perfect</span> Tutor <br>for your Journey.</h1>
-    <p style="color: #666; max-width: 600px; margin: 20px auto;">Connecting ambitious students with Nagaland's most compatible educators.</p>
+    <h1>Your <span>Perfect</span><br>Tutor awaits.</h1>
+    <p style="color: #666; max-width: 550px; margin: 20px auto 0; font-size: 1.2rem;">Bridging the gap between Nagaland’s sharpest minds and most ambitious students.</p>
 </section>
 
+<div class="trust-row">
+    <div class="trust-gem"><h4>01. Find</h4><p style="font-size: 0.85rem; color: #777;">Browse by subject and area</p></div>
+    <div class="trust-gem"><h4>02. Connect</h4><p style="font-size: 0.85rem; color: #777;">WhatsApp-based easy registration</p></div>
+    <div class="trust-gem"><h4>03. Excel</h4><p style="font-size: 0.85rem; color: #777;">Personalized 1-on-1 growth</p></div>
+</div>
+
+<!-- SEARCH AREA -->
 <div class="search-hub">
     <div class="filter-el">
         <label>Subject</label>
-        <select id="subS">
+        <select id="subS" onchange="search()">
             <option value="All">Explore All Subjects</option>
             <optgroup label="Core Subjects">
                 <option value="Math">Mathematics</option>
@@ -244,7 +210,7 @@
 
     <div class="filter-el">
         <label>District</label>
-        <select id="distS">
+        <select id="distS" onchange="search()">
             <option value="All">Across Nagaland</option>
             <option value="Chümoukedima">Chümoukedima</option>
             <option value="Dimapur">Dimapur</option>
@@ -266,78 +232,130 @@
     </div>
 
     <div class="filter-el">
-        <label>Max Monthly Fee</label>
-        <input type="number" id="feeS" placeholder="₹ e.g. 3000">
+        <label>Area (Optional)</label>
+        <input type="text" id="areaS" placeholder="e.g. Nagarjan, High School" oninput="search()">
     </div>
 
-    <button class="btn-glow" onclick="search()">Search Now</button>
+    <div class="filter-el">
+        <label>Max Fee (₹)</label>
+        <input type="number" id="feeS" placeholder="e.g. 3000" oninput="search()">
+    </div>
 </div>
 
-<div class="tutor-container">
-    <div id="grid" class="card-grid"></div>
-</div>
+<div id="grid" class="card-grid"></div>
+
+<!-- ABOUT SECTION -->
+<section id="about" class="about-section">
+    <div>
+        <h2 style="font-size: 3.5rem; line-height: 1.1; margin-bottom: 20px;">Built by <br><span style="color: var(--tangerine)">Tinujungshi.</span></h2>
+        <p style="color: #aaa; font-size: 1.1rem; line-height: 1.8;">
+            I am a 16-year-old creator from Nagaland with a vision to revolutionize how we learn. 
+            Knavvy is an experimental R&D project designed to connect technical expertise 
+            with local curiosity.
+        </p>
+        <div style="margin-top: 40px; display: flex; gap: 20px; align-items: center;">
+            <a href="https://instagram.com/sp4rklinggg._" target="_blank" class="btn-glow" style="background: white; color: black;">Follow @sp4rklinggg._</a>
+        </div>
+    </div>
+    <div style="background: #1a1a1a; padding: 40px; border-radius: 30px; border: 1px solid #333;">
+        <p style="font-style: italic; color: #888;">"Education shouldn't be about memorizing; it should be an indie experience worth exploring."</p>
+    </div>
+</section>
+
+<!-- JOIN KNAVVY UPDATED SECTION -->
+<section id="join" style="padding: 100px 8%; text-align: center; background: var(--accent-soft); margin: 0 5%; border-radius: 40px;">
+    <h2 style="font-size: 3rem; margin-bottom: 10px; font-weight: 800;">Join Knavvy.</h2>
+    <p style="color: #666; margin-bottom: 30px; font-size: 1.1rem;">Ready to share your knowledge? Follow the registration guide below.</p>
+    
+    <div class="registration-box">
+        <h3 style="margin-bottom: 20px; color: var(--vermillion); letter-spacing: -1px;">Registration Requirements</h3>
+        <p style="margin-bottom: 20px; font-size: 0.9rem; color: #555;">Please send a WhatsApp message with the following details to get listed:</p>
+        
+        <ul class="reg-list">
+            <li><strong>Full Name:</strong> Your professional teaching name.</li>
+            <li><strong>Teaching Subjects:</strong> List the subjects you specialize in.</li>
+            <li><strong>Monthly Fees:</strong> Your standard rate per student (₹).</li>
+            <li><strong>Personal Contact:</strong> For Knavvy internal records.</li>
+            <li><strong>Display Contact:</strong> The number students will use to call you.</li>
+            <li><strong>Location:</strong> Your specific town/colony and District.</li>
+        </ul>
+
+        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+            <a href="https://wa.me/919366590311?text=Hello%20Knavvy!%20I%20want%20to%20register%20as%20an%20educator.%0A%0AName:%20%0ASubjects:%20%0AFees:%20%0APersonal%20Number:%20%0ADisplay%20Number:%20%0ALocation%20(Area%20%26%20District):%20" class="btn-glow">Apply via WhatsApp</a>
+            <a href="mailto:tinujungshi34@outlook.com" class="btn-glow" style="background: white; color: black; border: 1px solid #ddd;">Email Support</a>
+        </div>
+    </div>
+</section>
 
 <footer>
-    <p>© 2026 Knavvy. Crafted with ❤️ by Tinujungshi.</p>
+    <p>2026 KNAVVY | CRAFTED WITH ❤️ BY TINUJUNGSHI LONGKUMER IN NAGALAND</p>
 </footer>
 
 <script>
-    /* --- TINUJUNGSHI'S MASTER DATABASE --- 
-       Easily add, delete, or modify profiles below.
-    */
-    const DATABASE = [
-        { name: "Longumer T.", dist: "Dimapur", sub: ["Math", "Physics"], fee: 2500, contact: "9366XXXXX", bio: "NBSE Topper (2023). Simplified logical approach." },
-        { name: "Kekhrie Solo", dist: "Kohima", sub: ["Pol Science", "Education"], fee: 1800, contact: "8787XXXXX", bio: "Deep focus on NBSE Board exam patterns." },
-        { name: "Sentila Jamir", dist: "Mokokchung", sub: ["Ao", "English"], fee: 1200, contact: "7005XXXXX", bio: "Literature enthusiast and language expert." },
-        { name: "Vikram Dey", dist: "Dimapur", sub: ["Accountancy", "Economics"], fee: 4000, contact: "9436XXXXX", bio: "Professional Commerce Coaching for Class 11-12." },
-        { name: "Abemo Lotha", dist: "Wokha", sub: ["Science", "Biology"], fee: 2000, contact: "8119XXXXX", bio: "Visual learning and diagram specialist." },
-        { name: "Neituo P.", dist: "Tseminyu", sub: ["Tenydie", "Alt English"], fee: 1500, contact: "6009XXXXX", bio: "Specialized in Regional Language curriculum." },
-        { name: "Zeliang N.", dist: "Peren", sub: ["Social Science"], fee: 1000, contact: "8837XXXXX", bio: "Primary to Middle School specialist." },
-        { name: "Imkong O.", dist: "Zunheboto", sub: ["Computer Science", "Math"], fee: 3000, contact: "9862XXXXX", bio: "Practical coding and digital logic expert." }
-    ];
+const DATABASE = [
+    // Added 'area' property to all objects
+    { name: "Longumer T.", dist: "Dimapur", area: "Nagarjan", sub: ["Math", "Physics"], fee: 2500, bio: "NBSE Topper (2023). Focuses on simplified logical approaches." },
+    { name: "Vikram Dey", dist: "Dimapur", area: "Duncan Basti", sub: ["Accountancy", "Economics"], fee: 4000, bio: "Professional Commerce Coaching for Class 11-12." },
+    { name: "Sushmita Das", dist: "Dimapur", area: "Signal Basti", sub: ["English", "History"], fee: 1800, bio: "MA in English. Specialized in creative writing and grammar." },
+    { name: "Bendang Y.", dist: "Chümoukedima", area: "Ward 4", sub: ["Computer Science"], fee: 3500, bio: "Data Science student teaching Python and automation." },
+    { name: "Abigail K.", dist: "Chümoukedima", area: "Diphupar", sub: ["Music"], fee: 1500, bio: "Trinity Grade 7 Piano. Teaching classical and contemporary." },
+    { name: "Kezhalezo P.", dist: "Kohima", area: "High School Junction", sub: ["Biology", "Chemistry"], fee: 3000, bio: "Specialist in NEET foundation and Class 12 Science boards." },
+    { name: "Zubeno M.", dist: "Kohima", area: "Lower Chandmari", sub: ["Pol Science", "Education"], fee: 2000, bio: "Civil Service aspirant providing deep insights into Indian Polity." },
+    { name: "Kevisenuo R.", dist: "Kohima", area: "Lerie", sub: ["Tenydie"], fee: 1500, bio: "Heritage through language. Beginners and advanced Tenydie." },
+    { name: "Sentila Jamir", dist: "Mokokchung", area: "Alempang", sub: ["Ao", "English"], fee: 1200, bio: "Literature enthusiast and language expert helping students master Ao." },
+    { name: "Atoka Sumi", dist: "Zunheboto", area: "Project Colony", sub: ["Sumi"], fee: 1100, bio: "Fluent Sumi speaker focusing on conversational skills." },
+    { name: "Priya Sharma", dist: "Wokha", area: "PWD Colony", sub: ["Math", "Science"], fee: 2200, bio: "Building strong foundations for middle school students." }
+    // ... Additional entries would follow the same pattern
+];    
 
-    // Page Load Animation
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+    });
+
     window.onload = () => {
         setTimeout(() => {
-            const loader = document.getElementById('loader');
-            loader.style.transform = "translateY(-100%)";
+            document.getElementById('loader').style.transform = "translateY(-100%)";
             render(DATABASE);
-        }, 2500);
+        }, 1500);
     };
 
     function render(list) {
         const grid = document.getElementById('grid');
-        grid.innerHTML = list.map(t => `
+        grid.innerHTML = list.length ? list.map(t => `
             <div class="tutor-card">
-                <div class="match-label">VERIFIED TUTOR</div>
-                <h3 class="t-name">${t.name}</h3>
-                <div class="t-loc">📍 ${t.dist} District</div>
-                <p style="font-size: 0.9rem; color: #777; line-height: 1.5; margin-bottom: 20px;">${t.bio}</p>
-                <div>
-                    ${t.sub.map(s => `<span class="sub-pill">${s}</span>`).join('')}
+                <div class="verified-badge">
+                    <div class="verified-pulse"></div> VERIFIED MENTOR
                 </div>
-                <div class="price-row">
-                    <div class="fee-amount">₹${t.fee}<small style="font-size: 0.7rem; color: #999;">/mo</small></div>
-                    <button class="btn-glow" style="padding: 10px 20px; font-size: 0.8rem;" onclick="alert('Contact: ${t.contact}')">Connect</button>
+                <h3 style="margin: 15px 0 5px; font-size: 1.7rem; letter-spacing: -1px;">${t.name}</h3>
+                <p style="color: var(--tangerine); font-size: 0.8rem; font-weight: 700; margin-bottom: 20px;">📍 ${t.area ? t.area + ', ' : ''}${t.dist} District</p>
+                <p style="color: #666; font-size: 0.95rem; margin-bottom: 25px; line-height: 1.5;">${t.bio}</p>
+                <div style="margin-bottom: 30px; display: flex; flex-wrap: wrap; gap: 8px;">
+                    ${t.sub.map(s => `<span style="background: #f9f9f9; color: #444; padding: 6px 14px; border-radius: 10px; font-size: 0.75rem; font-weight: 700; border: 1px solid #eee;">${s}</span>`).join('')}
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f5f5f5; padding-top: 20px;">
+                    <span style="font-weight: 800; font-size: 1.5rem;">₹${t.fee}<small style="font-size: 0.7rem; color: #aaa;">/mo</small></span>
+                    <button class="btn-glow" onclick="window.open('https://wa.me/919366590311')">Connect</button>
                 </div>
             </div>
-        `).join('');
+        `).join('') : `<div style="grid-column: 1/-1; text-align: center; padding: 100px; color: #999;">No tutors found in this area.</div>`;
     }
 
     function search() {
         const sSub = document.getElementById('subS').value;
         const sDist = document.getElementById('distS').value;
+        const sArea = document.getElementById('areaS').value.toLowerCase();
         const sFee = document.getElementById('feeS').value;
 
         const results = DATABASE.filter(t => {
             const mSub = sSub === "All" || t.sub.includes(sSub);
             const mDist = sDist === "All" || t.dist === sDist;
             const mFee = !sFee || t.fee <= sFee;
-            return mSub && mDist && mFee;
+            const mArea = !sArea || (t.area && t.area.toLowerCase().includes(sArea));
+            return mSub && mDist && mFee && mArea;
         });
-
         render(results);
-        window.scrollTo({ top: 600, behavior: 'smooth' });
     }
 </script>
 
